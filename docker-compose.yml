@@ -1,0 +1,27 @@
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: microblog_postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  api:
+    build: .
+    container_name: microblog_api
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+    volumes:
+      - media_data:/app/media
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:
+  media_data:

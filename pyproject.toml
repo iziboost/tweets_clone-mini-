@@ -1,0 +1,54 @@
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [
+    "migrations",
+    "__pycache__",
+    "myenv",
+    "build",
+    "dist",
+    ".git"
+]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # isort (сортировка импортов)
+    "B",   # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (контролируем через line-length)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.11"
+strict = false
+
+warn_unused_configs = true
+warn_return_any = true
+warn_unused_ignores = true
+
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+no_implicit_optional = true
+check_untyped_defs = true
+
+pretty = true
+show_error_codes = true
+
+exclude = [
+    "migrations/",
+    "tests/",
+    "__pycache__",
+    "myenv",
+    "build",
+    "dist",
+    ".git"
+]
