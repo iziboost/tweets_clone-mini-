@@ -1,23 +1,23 @@
-from datetime import datetime
 from typing import List, Optional
+from pydantic import BaseModel, ConfigDict
+from app.schemas.user import UserShort
 
-from pydantic import BaseModel
-from pydantic import ConfigDict
+class LikeInfo(BaseModel):
+    user_id: int
+    name: str
 
-from app.schemas.user import UserResponse
-from app.schemas.media import MediaResponse
-
+class FeedTweet(BaseModel):
+    id: int
+    content: str
+    attachments: List[str]
+    author: UserShort
+    likes: List[LikeInfo]
+    model_config = ConfigDict(from_attributes=True)
 
 class CreateTweet(BaseModel):
     tweet_data: str
     tweet_media_ids: Optional[List[int]] = None
 
-
-class TweetResponse(BaseModel):
-    id: int
-    content: str
-    created_at: datetime
-    author: UserResponse
-    medias: List[MediaResponse]
-
-    model_config = ConfigDict(from_attributes=True)
+class CreateTweetResponse(BaseModel):
+    result: bool = True
+    tweet_id: int

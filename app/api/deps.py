@@ -7,7 +7,7 @@ from app.models.user import User
 
 
 async def get_current_user(
-    api_key: str = Header(...),
+    api_key: str = Header(..., alias="api-key"),
     db: AsyncSession = Depends(get_db),
 ) -> User:
     """

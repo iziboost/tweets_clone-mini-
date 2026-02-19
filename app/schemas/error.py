@@ -2,5 +2,6 @@ from pydantic import BaseModel
 
 
 class ErrorResponse(BaseModel):
-    success: bool = False
-    error: str
+    result: bool = False
+    error_type: str
+    error_message: str

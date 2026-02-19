@@ -5,5 +5,8 @@ T = TypeVar("T")
 
 
 class BaseResponse(BaseModel, Generic[T]):
-    success: bool = True
+    result: bool = True
     data: T
+
+class SimpleResult(BaseModel):
+    result: bool = True
