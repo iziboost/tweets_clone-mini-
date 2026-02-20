@@ -1,7 +1,7 @@
 
 from fastapi import APIRouter
 
-from app.api.routes import tweets, users, likes, follows, medias
+from app.api.routes import follows, likes, medias, tweets, users
 
 api_router = APIRouter(prefix="/api")
 api_router.include_router(tweets.router)

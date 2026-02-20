@@ -4,9 +4,3 @@ sqlalchemy
 asyncpg
 pydantic
 python-multipart
-
-# тестирование
-pytest
-pytest-asyncio
-httpx
-aiosqlite

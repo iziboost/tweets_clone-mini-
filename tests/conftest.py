@@ -9,19 +9,18 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 # (client_test и client_admin в одном тесте) видели одни и те же данные.
 os.environ["DATABASE_URL"] = "sqlite+aiosqlite:///./test.db"
 
-import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 from app.core.database import Base, async_session_factory, engine
+from app.main import app
 from app.models.follow import Follow  # noqa: F401 — регистрируют модели в Base.metadata
 from app.models.like import Like  # noqa: F401
 from app.models.media import Media  # noqa: F401
 from app.models.tweet import Tweet  # noqa: F401
 from app.models.user import User
-from app.main import app
 
 API_KEY_TEST = "test"
 API_KEY_ADMIN = "admin"

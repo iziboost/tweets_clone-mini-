@@ -1,15 +1,14 @@
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.deps import get_current_user
 from app.core.database import get_db
 from app.models.like import Like
-from app.models.user import User
 from app.models.tweet import Tweet
+from app.models.user import User
 from app.schemas.error import ErrorResponse
-
-from app.api.deps import get_current_user
 
 router = APIRouter(tags=["likes"])
 

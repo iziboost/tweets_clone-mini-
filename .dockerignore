@@ -1,4 +1,10 @@
-myenv
+myenv/
 __pycache__
 .git
 .gitignore
+tests/
+pyproject.toml
+pytest.ini
+requirements-dev.txt
+.env
+*.md

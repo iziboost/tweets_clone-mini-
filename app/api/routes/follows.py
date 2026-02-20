@@ -1,14 +1,13 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.api.deps import get_current_user
+from app.core.database import get_db
 from app.models.follow import Follow
 from app.models.user import User
 from app.schemas.error import ErrorResponse
-
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-from sqlalchemy.exc import IntegrityError
-
-from app.core.database import get_db
-from app.api.deps import get_current_user
 
 router = APIRouter(tags=["follows"])
 

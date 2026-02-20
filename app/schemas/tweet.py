@@ -1,6 +1,8 @@
-from typing import List, Optional
+
 from pydantic import BaseModel, ConfigDict
+
 from app.schemas.user import UserShort
+
 
 class LikeInfo(BaseModel):
     user_id: int
@@ -9,14 +11,14 @@ class LikeInfo(BaseModel):
 class FeedTweet(BaseModel):
     id: int
     content: str
-    attachments: List[str]
+    attachments: list[str]
     author: UserShort
-    likes: List[LikeInfo]
+    likes: list[LikeInfo]
     model_config = ConfigDict(from_attributes=True)
 
 class CreateTweet(BaseModel):
     tweet_data: str
-    tweet_media_ids: Optional[List[int]] = None
+    tweet_media_ids: list[int] | None = None
 
 class CreateTweetResponse(BaseModel):
     result: bool = True

@@ -1,18 +1,17 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import desc, func, or_, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import update, select, func, desc, or_
 from sqlalchemy.orm import selectinload
 
-from app.core.database import get_db
 from app.api.deps import get_current_user
+from app.core.database import get_db
 from app.models.follow import Follow
-from app.models.tweet import Tweet
-from app.models.media import Media
 from app.models.like import Like
+from app.models.media import Media
+from app.models.tweet import Tweet
 from app.models.user import User
-
-from app.schemas.tweet import CreateTweet
 from app.schemas.error import ErrorResponse
+from app.schemas.tweet import CreateTweet
 
 router = APIRouter(tags=["tweets"])
 
@@ -111,8 +110,8 @@ async def get_feed(
     for t in tweets:
         attachments = [m.file_path for m in t.medias]  # можно превратить в URL
         likes = [
-            {"user_id": l.user.id, "name": l.user.name}
-            for l in t.likes
+            {"user_id": lk.user.id, "name": lk.user.name}
+            for lk in t.likes
         ]
         items.append({
             "id": t.id,

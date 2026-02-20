@@ -1,14 +1,14 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
 from pathlib import Path
 from uuid import uuid4
-from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import Depends
 
-from app.models.user import User
-from app.models.media import Media
-from app.schemas.error import ErrorResponse
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.api.deps import get_current_user
 from app.core.database import get_db
+from app.models.media import Media
+from app.models.user import User
+from app.schemas.error import ErrorResponse
 
 router = APIRouter(tags=["medias"])
 
@@ -27,7 +27,7 @@ async def upload_media(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
 ) -> dict:
-    if not file.content_type.startswith("image/"):
+    if not file.content_type or not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Only images are allowed")
 
     MEDIA_ROOT.mkdir(parents=True, exist_ok=True)
