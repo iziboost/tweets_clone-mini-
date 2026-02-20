@@ -14,15 +14,11 @@ if TYPE_CHECKING:
 class Follow(Base):
     __tablename__ = "follows"
 
-    __table_args__ = (
-        UniqueConstraint("follower_id", "following_id"),
-    )
+    __table_args__ = (UniqueConstraint("follower_id", "following_id"),)
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
-    follower_id: Mapped[int] = mapped_column(
-        ForeignKey("users.id", ondelete="CASCADE")
-    )
+    follower_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
 
     following_id: Mapped[int] = mapped_column(
         ForeignKey("users.id", ondelete="CASCADE")

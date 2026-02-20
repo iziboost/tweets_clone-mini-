@@ -14,7 +14,6 @@ if TYPE_CHECKING:
     from app.models.user import User
 
 
-
 class Tweet(Base):
     __tablename__ = "tweets"
 

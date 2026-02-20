@@ -14,6 +14,7 @@ router = APIRouter(tags=["medias"])
 
 MEDIA_ROOT = Path("media")
 
+
 @router.post(
     "/medias",
     responses={

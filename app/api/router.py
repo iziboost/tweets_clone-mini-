@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter
 
 from app.api.routes import follows, likes, medias, tweets, users

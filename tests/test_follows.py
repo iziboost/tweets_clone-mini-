@@ -60,7 +60,9 @@ async def test_unfollow_user(
 
 
 @pytest.mark.asyncio
-async def test_unfollow_idempotent(client_test: AsyncClient, client_admin: AsyncClient) -> None:
+async def test_unfollow_idempotent(
+    client_test: AsyncClient, client_admin: AsyncClient
+) -> None:
     """Повторный unfollow — успех (идемпотентность)."""
     me_resp = await client_admin.get("/api/users/me")
     admin_id = me_resp.json()["user"]["id"]

@@ -30,7 +30,9 @@ async def test_get_me_admin(client_admin: AsyncClient) -> None:
 
 
 @pytest.mark.asyncio
-async def test_get_user_by_id(client_test: AsyncClient, client_admin: AsyncClient) -> None:
+async def test_get_user_by_id(
+    client_test: AsyncClient, client_admin: AsyncClient
+) -> None:
     """GET /api/users/{id} возвращает профиль по id (без auth)."""
     # Получаем id admin через /me
     me_resp = await client_admin.get("/api/users/me")

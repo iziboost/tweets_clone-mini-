@@ -14,9 +14,7 @@ async def get_current_user(
     Получаем пользователя по API-ключу.
     """
 
-    result = await db.execute(
-        select(User).where(User.api_key == api_key)
-    )
+    result = await db.execute(select(User).where(User.api_key == api_key))
     user = result.scalar_one_or_none()
 
     if not user:

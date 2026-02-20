@@ -11,21 +11,17 @@ from app.schemas.error import ErrorResponse
 
 router = APIRouter(tags=["users"])
 
+
 def build_profile(u: User) -> dict:
-    followers = [
-        {"id": f.follower.id, "name": f.follower.name}
-        for f in u.followers
-    ]
-    following = [
-        {"id": f.following.id, "name": f.following.name}
-        for f in u.followings
-    ]
+    followers = [{"id": f.follower.id, "name": f.follower.name} for f in u.followers]
+    following = [{"id": f.following.id, "name": f.following.name} for f in u.followings]
     return {
         "id": u.id,
         "name": u.name,
         "followers": followers,
         "following": following,
     }
+
 
 @router.get(
     "/users/me",

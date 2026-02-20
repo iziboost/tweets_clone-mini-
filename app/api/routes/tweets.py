@@ -109,19 +109,18 @@ async def get_feed(
     items = []
     for t in tweets:
         attachments = [m.file_path for m in t.medias]  # можно превратить в URL
-        likes = [
-            {"user_id": lk.user.id, "name": lk.user.name}
-            for lk in t.likes
-        ]
-        items.append({
-            "id": t.id,
-            "content": t.content,
-            "attachments": attachments,
-            "author": {
-                "id": t.author.id,
-                "name": t.author.name,
-            },
-            "likes": likes,
-        })
+        likes = [{"user_id": lk.user.id, "name": lk.user.name} for lk in t.likes]
+        items.append(
+            {
+                "id": t.id,
+                "content": t.content,
+                "attachments": attachments,
+                "author": {
+                    "id": t.author.id,
+                    "name": t.author.name,
+                },
+                "likes": likes,
+            }
+        )
 
     return {"result": True, "tweets": items}
