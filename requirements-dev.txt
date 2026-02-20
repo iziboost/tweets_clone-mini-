@@ -1,0 +1,11 @@
+-r requirements.txt
+
+# тестирование
+pytest
+pytest-asyncio
+httpx
+aiosqlite
+
+# линтеры
+ruff
+mypy
