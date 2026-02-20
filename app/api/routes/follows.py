@@ -1,6 +1,5 @@
 from app.models.follow import Follow
 from app.models.user import User
-from app.schemas.response import SimpleResult
 from app.schemas.error import ErrorResponse
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -16,14 +15,13 @@ router = APIRouter(tags=["follows"])
 
 @router.post(
     "/users/{user_id}/follow",
-    response_model=SimpleResult,
     responses={200: {"description": "Followed"}, 401: {"model": ErrorResponse}},
 )
 async def follow_user(
     user_id: int,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
-) -> SimpleResult:
+) -> dict:
     if user_id == current_user.id:
         raise HTTPException(status_code=400, detail="Cannot follow yourself")
 
@@ -39,19 +37,18 @@ async def follow_user(
     except IntegrityError:
         await db.rollback()  # уже подписан
 
-    return SimpleResult(result=True)
+    return {"result": True}
 
 
 @router.delete(
     "/users/{user_id}/follow",
-    response_model=SimpleResult,
     responses={200: {"description": "Unfollowed"}, 401: {"model": ErrorResponse}},
 )
 async def unfollow_user(
     user_id: int,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
-) -> SimpleResult:
+) -> dict:
     res = await db.execute(
         select(Follow).where(
             Follow.follower_id == current_user.id,
@@ -63,4 +60,4 @@ async def unfollow_user(
         await db.delete(follow)
         await db.commit()
 
-    return SimpleResult(result=True)
+    return {"result": True}

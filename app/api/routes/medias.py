@@ -6,7 +6,6 @@ from fastapi import Depends
 
 from app.models.user import User
 from app.models.media import Media
-from app.schemas.media import CreateMediaResponse
 from app.schemas.error import ErrorResponse
 from app.api.deps import get_current_user
 from app.core.database import get_db
@@ -17,7 +16,6 @@ MEDIA_ROOT = Path("media")
 
 @router.post(
     "/medias",
-    response_model=CreateMediaResponse,
     responses={
         200: {"description": "Media uploaded"},
         400: {"model": ErrorResponse},
@@ -28,7 +26,7 @@ async def upload_media(
     file: UploadFile = File(...),
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
-) -> CreateMediaResponse:
+) -> dict:
     if not file.content_type.startswith("image/"):
         raise HTTPException(status_code=400, detail="Only images are allowed")
 
@@ -45,4 +43,4 @@ async def upload_media(
     await db.commit()
     await db.refresh(media)
 
-    return CreateMediaResponse(result=True, media_id=media.id)
+    return {"result": True, "media_id": media.id}

@@ -6,12 +6,11 @@ from app.core.database import get_db
 from app.api.deps import get_current_user
 from app.models.user import User
 from app.models.follow import Follow
-from app.schemas.user import UserProfile
 from app.schemas.error import ErrorResponse
 
 router = APIRouter(tags=["users"])
 
-def build_profile(u: User) -> UserProfile:
+def build_profile(u: User) -> dict:
     followers = [
         {"id": f.follower.id, "name": f.follower.name}
         for f in u.followers
@@ -20,12 +19,12 @@ def build_profile(u: User) -> UserProfile:
         {"id": f.following.id, "name": f.following.name}
         for f in u.followings
     ]
-    return UserProfile(
-        id=u.id,
-        name=u.name,
-        followers=followers,
-        following=following,
-    )
+    return {
+        "id": u.id,
+        "name": u.name,
+        "followers": followers,
+        "following": following,
+    }
 
 @router.get(
     "/users/me",

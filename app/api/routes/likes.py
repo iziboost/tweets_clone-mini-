@@ -7,7 +7,6 @@ from app.core.database import get_db
 from app.models.like import Like
 from app.models.user import User
 from app.models.tweet import Tweet
-from app.schemas.response import SimpleResult
 from app.schemas.error import ErrorResponse
 
 from app.api.deps import get_current_user
@@ -23,7 +22,7 @@ async def like_tweet(
     tweet_id: int,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
-) -> SimpleResult:
+) -> dict:
     # убеждаемся, что твит существует
     res = await db.execute(select(Tweet).where(Tweet.id == tweet_id))
     tweet = res.scalar_one_or_none()
@@ -37,7 +36,7 @@ async def like_tweet(
     except IntegrityError:
         await db.rollback()  # лайк уже существует — просто считаем операцию успешной
 
-    return SimpleResult(result=True)
+    return {"result": True}
 
 
 @router.delete(
@@ -48,7 +47,7 @@ async def unlike_tweet(
     tweet_id: int,
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db),
-) -> SimpleResult:
+) -> dict:
     res = await db.execute(
         select(Like).where(
             Like.tweet_id == tweet_id,
@@ -60,4 +59,4 @@ async def unlike_tweet(
         await db.delete(like)
         await db.commit()
     # если лайка нет — просто возвращаем успех (идемпотентность)
-    return SimpleResult(result=True)
+    return {"result": True}

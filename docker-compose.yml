@@ -30,6 +30,7 @@ services:
       - api
     volumes:
       - ./frontend/dist:/usr/share/nginx/html:ro
+      - media_data:/media:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "80:80"
